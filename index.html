@@ -7,18 +7,24 @@
 </head>
 <body>
     <button onclick="create()">start</button>
+    <button onclick="stop()">stop</button>
     <script>
-        let pacmen=['PacMan1.png','PacMan2.png','PacMan3.png','PacMan4.png']
+        let pacmen1=['PacMan1.png','PacMan2.png']
+        let pacmen2=['PacMan3.png','PacMan4.png']
         let pac1;
+        let isMoving = false; 
+        let movementTimeout;
 function create(){
     pac1=document.createElement("img");
     console.log("hi");
-    pac1.src=pacmen[0]
+    pac1.src=pacmen1[0]
     pac1.style.width="30px"
     pac1.style.height="30px"
     pac1.style.top="100px";
     pac1.style.position="absolute"
     document.body.appendChild(pac1);
+    isMoving = true; 
+    move();
     }
     let position=0;
     let velocity=10;
@@ -26,9 +32,10 @@ function create(){
     let front=1;
     function move()
     {   
+        if (!isMoving) return;
         if(position<600&&forward==true)
              {
-                pac1.src=pacmen[front%2]
+                pac1.src=pacmen1[front%2]
                 position=position+velocity;
                 pac1.style.left=position+'px';
                 console.log("forward",position);
@@ -43,7 +50,7 @@ function create(){
     
        if(position>0 && forward==false)
             {
-                pac1.src=pacmen[front%2+1]
+                pac1.src=pacmen2[front%2]
                 position=position-velocity;
                 pac1.style.left=position+'px';
                 front=front+1;
@@ -53,8 +60,14 @@ function create(){
                     forward=true;
                     } 
              }
-            setTimeout(move,200)
+           movementTimeout= setTimeout(move,200)
             }
+            function stop() {
+            isMoving = false; 
+            clearTimeout(movementTimeout); 
+        }
 </script>
 </body>
 </html>
+    
+              
